@@ -24,16 +24,27 @@ class Blockchain {
         
         this.chain = [
              /* TODO 1: Create the genesis block here */ 
+             new Block("genesis")
             ];
     }
 
     addBlock(block){
         // TODO 2 Compute block.previousHash = previousBlock.toHash()
+        const previousBlock = this.chain[this.chain.length - 1]
+        block.previousHash = previousBlock.toHash();
         this.chain.push(block)
     }
 
     isValid(){
         // TODO 3 Check every block previous hash
+        for (let i = 1; i < this.chain.length; i++){
+            const currentBlock = this.chain[i];
+            const previousBlock = this.chain[i-1];
+
+            if (currentBlock.previousHash.toString() !== previousBlock.toHash().toString()){
+                return false;
+            }
+        }
         return true;
     }
 }
